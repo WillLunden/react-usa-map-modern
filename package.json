@@ -8,6 +8,9 @@
     "url": "https://github.com/gabidavila/react-usa-map.git"
   },
   "author": "Gabriela D'Avila Ferrara <me@gabriela.io>",
+  "contributors": [
+    "Gabriela D'Avila Ferrara <me@gabriela.io> (https://github.com/gabidavila)"
+  ],
   "bugs": {
     "url": "https://github.com/gabidavila/react-usa-map/issues"
   },
