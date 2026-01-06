@@ -2,6 +2,8 @@
 
 A simple, customizable SVG USA map component for React.
 
+> **Note:** This is a modernized fork of [react-usa-map](https://github.com/gabidavila/react-usa-map) by [Gabriela D'Avila Ferrara](https://github.com/gabidavila). This fork updates the project to current standards with TypeScript, modern React patterns, and ESM/CJS dual packaging.
+
 ## Features
 
 - All 50 US states plus DC, Alaska, and Hawaii
