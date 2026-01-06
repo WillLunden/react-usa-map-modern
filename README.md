@@ -1,130 +1,124 @@
-# react-usa-map | A simple SVG USA map rendering on React
+# react-usa-map
 
-[![Build Status](https://travis-ci.org/gabidavila/react-usa-map.svg?branch=master)](https://travis-ci.org/gabidavila/react-usa-map) [![codebeat badge](https://codebeat.co/badges/edd62a75-c313-47c7-b239-d1d1848d3621)](https://codebeat.co/projects/github-com-gabidavila-react-usa-map-master)
+A simple, customizable SVG USA map component for React.
 
-This is an alternate version for you that just want a simple customizable map on HTML. This maps shows states delimitations including DC, Alaska, and Hawaii. D3 is not needed.
+## Features
 
-It uses the [Albers projection](https://en.wikipedia.org/wiki/Albers_projection).
-
-## [Live Example](http://react-usa-map-demo.herokuapp.com)
-Live: [http://react-usa-map-demo.herokuapp.com](http://react-usa-map-demo.herokuapp.com)
-
-Code: [http://github.com/gabidavila/react-usa-map-demo](http://github.com/gabidavila/react-usa-map-demo)
+- All 50 US states plus DC, Alaska, and Hawaii
+- Customizable colors per state
+- Custom click handlers per state
+- TypeScript support with full type definitions
+- No D3 dependency - lightweight and fast
+- Uses the [Albers projection](https://en.wikipedia.org/wiki/Albers_projection)
 
 ## Installation
 
-It requires `react` 16.13.1 or higher. Run:
+Requires React 17, 18, or 19.
 
-`yarn add react-usa-map`
-
-or
-
-`npm install react-usa-map --save`
+```bash
+npm install react-usa-map
+```
 
 ## Usage
 
-The below example shows the mandatory `onClick` event.
+### Basic Example
 
-```javascript
-import React, { Component } from 'react';
+```tsx
 import USAMap from "react-usa-map";
 
-class App extends Component {
-  /* mandatory */
-  mapHandler = (event) => {
-    alert(event.target.dataset.name);
+function App() {
+  const handleClick = (stateAbbreviation: string) => {
+    alert(`You clicked ${stateAbbreviation}`);
   };
 
-  render() {
-    return (
-      <div className="App">
-        <USAMap onClick={this.mapHandler} />
-      </div>
-    );
-  }
+  return <USAMap onClick={handleClick} />;
 }
-
-export default App;
 ```
 
-Example with optional props, `App.js`:
+### With Customization
 
-```javascript
-import React, { Component } from 'react';
-import './App.css'; /* optional for styling like the :hover pseudo-class */
+```tsx
 import USAMap from "react-usa-map";
 
-class App extends Component {
-  /* mandatory */
-  mapHandler = (event) => {
-    alert(event.target.dataset.name);
+function App() {
+  const handleClick = (stateAbbreviation: string) => {
+    console.log(`Clicked: ${stateAbbreviation}`);
   };
 
-  /* optional customization of filling per state and calling custom callbacks per state */
-  statesCustomConfig = () => {
-    return {
-      "NJ": {
-        fill: "navy",
-        clickHandler: (event) => console.log('Custom handler for NJ', event.target.dataset)
-      },
-      "NY": {
-        fill: "#CC0000"
-      }
-    };
+  const statesCustomization = {
+    NJ: {
+      fill: "navy",
+      clickHandler: (state: string) => console.log(`Custom handler for ${state}`),
+    },
+    NY: {
+      fill: "#CC0000",
+    },
   };
 
-  render() {
-    return (
-      <div className="App">
-        <USAMap customize={this.statesCustomConfig()} onClick={this.mapHandler} />
-      </div>
-    );
-  }
+  return (
+    <USAMap
+      customize={statesCustomization}
+      onClick={handleClick}
+      defaultFill="#E8E8E8"
+    />
+  );
 }
-
-export default App;
 ```
 
-`App.css`:
+### Styling Hover States
 
 ```css
-path {
+path.state {
   pointer-events: all;
 }
-path:hover {
-  opacity: 0.50;
+path.state:hover {
+  opacity: 0.5;
   cursor: pointer;
 }
 ```
 
-## All optional props:
+## Props
 
-|prop|description|
-|----|-----------|
-|`title`| Content for the Title attribute on the `svg`|
-|`width`| The `width` for rendering, numeric, no `px` suffix|
-|`height`| The `height` for rendering, numeric, no `px` suffix|
-|`defaultFill`| The default color for filling|
-|`customize`| Optional customization of filling per state |
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `onClick` | `(stateAbbreviation: string) => void` | - | Called when a state is clicked |
+| `width` | `number` | `959` | SVG width |
+| `height` | `number` | `593` | SVG height |
+| `title` | `string` | `"Blank US states map"` | SVG title attribute |
+| `defaultFill` | `string` | `"#D3D3D3"` | Default fill color for states |
+| `customize` | `StatesCustomization` | `{}` | Per-state customization (see below) |
 
-Additionally each `path` tag has an abbreviation of the current state followed by a `state` class:
+### Customization Object
 
-```html
-<path fill="#{custom color or #D3D3D3}" data-name="CA" class="CA state" d="...{polygon dimensions here}..."></path>
+```ts
+type StatesCustomization = {
+  [stateAbbreviation: string]: {
+    fill?: string;
+    clickHandler?: (stateAbbreviation: string) => void;
+  };
+};
 ```
 
-# License
+## TypeScript
 
-[MIT](LICENSE.md).
+Type definitions are included. You can import types directly:
 
-# Sources
+```ts
+import USAMap, { USAMapProps, StatesCustomization } from "react-usa-map";
+```
 
-The map is sourced from [Wikimedia](https://commons.wikimedia.org/wiki/File:Blank_US_Map_(states_only).svg) and is under [Creative Commons Attribution-Share Alike 3.0 Unported](https://spdx.org/licenses/CC-BY-SA-3.0.html) license. This package is inspired on the [react-us-state-map](https://npmjs.com/package/react-us-state-map) package, in fact the initial SVG class system is based on it.
+## HTML Structure
 
-# Contributing
+Each state is rendered as an SVG path with the state abbreviation as a class:
 
-Fork and PR. Not much fuss, I will be try to be as responsive as possible.
+```html
+<path class="CA state" data-name="CA" fill="#D3D3D3" d="..."></path>
+```
 
-# Maintainer
+## License
 
-Package maintaned by Gabriela D'Ávila Ferrara, [website](http://gabriela.io).
+[MIT](LICENSE.md)
+
+## Sources
+
+The map is sourced from [Wikimedia](https://commons.wikimedia.org/wiki/File:Blank_US_Map_(states_only).svg) under [CC BY-SA 3.0](https://spdx.org/licenses/CC-BY-SA-3.0.html).
