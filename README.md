@@ -1,4 +1,4 @@
-# react-usa-map
+# react-usa-map-modern
 
 A simple, customizable SVG USA map component for React.
 
@@ -16,7 +16,7 @@ A simple, customizable SVG USA map component for React.
 Requires React 17, 18, or 19.
 
 ```bash
-npm install react-usa-map
+npm install react-usa-map-modern
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ npm install react-usa-map
 ### Basic Example
 
 ```tsx
-import USAMap from "react-usa-map";
+import USAMap from "react-usa-map-modern";
 
 function App() {
   const handleClick = (stateAbbreviation: string) => {
@@ -38,7 +38,7 @@ function App() {
 ### With Customization
 
 ```tsx
-import USAMap from "react-usa-map";
+import USAMap from "react-usa-map-modern";
 
 function App() {
   const handleClick = (stateAbbreviation: string) => {
